@@ -1,8 +1,8 @@
 from telnetlib import Telnet
-import sys
+# import sys
 import socket
 import re
-import time
+# import time
 
 # Telnet, FlightGear Telnet connection
 # Copyright (C) 2020 FlightGear <flightgear-devel list>
