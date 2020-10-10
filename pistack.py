@@ -38,34 +38,43 @@ fg_stby_nav2 = fg['/instrumentation/nav[1]/frequencies/standby-mhz']
 
 sg.theme('DarkBlack1')
 
-layout1 = [
-    # Lables
-    [sg.Text('                    COM1                                           NAV1')],
-    
+frame_layout1 = [
     # COM1
     [sg.Input((fg_com1), size=(7,1), key='-use_com1-', readonly=True, border_width=(4), text_color='red',
     background_color='white'), sg.Button('<==>', key='-SWITCH_COM1-'), sg.Input((fg_stby_com1), size=(7, 1),
-    text_color='red', border_width=(4), key='-stby_com1-'),
+    text_color='red', border_width=(4), key='-stby_com1-')],
+    ]
+
+frame_layout2 = [
     # NAV1 
-    sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), text_color='red',    
+    [sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), text_color='red',    
     background_color='white'), sg.Button('<==>', key='-SWITCH_NAV1-'), sg.Input((fg_stby_nav1), size=(7, 1),
     text_color='red', border_width=(4), key='-stby_nav1-')],
-    
-    # Lables
-    [sg.Text('                    COM2                                           NAV2')],
-    
-    # COM2
+    ]
+
+frame_layout3 = [
+    # COM1
     [sg.Input((fg_com2), size=(7,1), key='-use_com2-', readonly=True, border_width=(4), text_color='red',
     background_color='white'), sg.Button('<==>', key='-SWITCH_COM2-'), sg.Input((fg_stby_com2), size=(7, 1),
-    text_color='red', border_width=(4), key='-stby_com2-'),
-    # NAV2
-    sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), text_color='red',
+    text_color='red', border_width=(4), key='-stby_com2-')],
+    ]
+
+frame_layout4 = [
+    # NAV1 
+    [sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), text_color='red',    
     background_color='white'), sg.Button('<==>', key='-SWITCH_NAV2-'), sg.Input((fg_stby_nav2), size=(7, 1),
     text_color='red', border_width=(4), key='-stby_nav2-')],
-    
-    # Options
-    [sg.Button('Keypad', key='-KEYPAD-'), sg.Button('Exit')]
     ]
+
+layout1 = [
+          [sg.Frame('Com1', frame_layout1, font='Any 12', title_color='white'),
+          sg.Frame('Nav1', frame_layout2, font='Any 12', title_color='white')],
+          [sg.Frame('Com2', frame_layout3, font='Any 12', title_color='white'),
+          sg.Frame('Nav2', frame_layout4, font='Any 12', title_color='white')],
+          # Optionsa
+          [sg.Button('Keypad', key='-KEYPAD-'), sg.Button('Exit')]
+         ]
+
 
 window1 = sg.Window('PiStack', layout1, location=(100, 100), size=(800, 480))
 window2_active = False
@@ -137,7 +146,7 @@ while True:
             [sg.Button('7'), sg.Button('8'), sg.Button('9')],
             
             # Digits and Enter
-            [sg.Button('Enter'), sg.Button('0'), sg.Button('.')],
+            [sg.Button('Enter'), sg.Button('0'), sg.Button('.'), sg.Cancel()],
             # [sg.Text(size=(15, 1), font=('Helvetica', 18), text_color='red', key='out')]
             ]
 
@@ -149,10 +158,11 @@ while True:
         while True:
             event2, values2 = window2.read(1000)
             
-            if event2 in (sg.WIN_CLOSED, 'Quit'):
+            if event2 in (sg.WIN_CLOSED, 'Quit', 'Cancel'):
                 window2.close()
                 window2_active = False
                 window1.UnHide()
+                break
             
             if event2 == 'Clear':
                 keys_entered = ''
@@ -168,8 +178,8 @@ while True:
             if event2 == 'Enter':
 
                 if values2['-COM1-'] == True:
-                      window1['-stby_com1-'].update(keys_entered)
-                      fg['/instrumentation/comm/frequencies/standby-mhz'] = keys_entered
+                    window1['-stby_com1-'].update(keys_entered)
+                    fg['/instrumentation/comm/frequencies/standby-mhz'] = keys_entered
 
                 elif values2['-NAV1-'] == True:
                     window1['-stby_nav1-'].update(keys_entered)
