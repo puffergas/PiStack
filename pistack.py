@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 from telnet import FlightGear
+import sys
 
 # PiStack, a remote radio stack for FlightGear
 # Copyright (C) 2020 Jeffrey Davis <jeff@puffergas.com>
@@ -20,9 +21,13 @@ from telnet import FlightGear
 # 59 Temple Place, Suite 330,
 # Boston, MA 02111-1307 USA
 
-
-fg = FlightGear('localhost', 5401)
-# fg = FlightGear('192.168.##.#', 5401)
+try:
+    fg = FlightGear('localhost', 5401)
+    # fg = FlightGear('192.168.##.#', 5401)
+except ConnectionRefusedError:
+    sg.popup_error('Opps', 'Looks like you started PiStack before FlightGear'
+    ' or did not configure FlightGear - PiStack will exit.', font=(any, 14))
+    sys.exit()
 
 fg_com1 = fg['/instrumentation/comm/frequencies/selected-mhz']
 fg_stby_com1 = fg['/instrumentation/comm/frequencies/standby-mhz']
@@ -40,37 +45,37 @@ sg.theme('DarkBlack1')
 
 frame_layout1 = [
     # COM1
-    [sg.Input((fg_com1), size=(7,1), key='-use_com1-', readonly=True, border_width=(4), text_color='red',
-    background_color='white'), sg.Button('<==>', key='-SWITCH_COM1-'), sg.Input((fg_stby_com1), size=(7, 1),
-    text_color='red', border_width=(4), key='-stby_com1-')],
+    [sg.Input((fg_com1), size=(7,1), key='-use_com1-', readonly=True, border_width=(4), font='Any 14', text_color='red',
+    background_color='white'), sg.Button('<==>', key='-SWITCH_COM1-', font='Any 14'), sg.Input((fg_stby_com1), size=(7, 1),
+    font='Any 14', text_color='red', border_width=(4), key='-stby_com1-')],
     ]
 
 frame_layout2 = [
     # NAV1 
-    [sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), text_color='red',    
-    background_color='white'), sg.Button('<==>', key='-SWITCH_NAV1-'), sg.Input((fg_stby_nav1), size=(7, 1),
-    text_color='red', border_width=(4), key='-stby_nav1-')],
+    [sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), font='Any 14', text_color='red',    
+    background_color='white'), sg.Button('<==>', key='-SWITCH_NAV1-', font='Any 14'), sg.Input((fg_stby_nav1), size=(7, 1),
+    font='Any 14', text_color='red', border_width=(4), key='-stby_nav1-')],
     ]
 
 frame_layout3 = [
     # COM1
-    [sg.Input((fg_com2), size=(7,1), key='-use_com2-', readonly=True, border_width=(4), text_color='red',
-    background_color='white'), sg.Button('<==>', key='-SWITCH_COM2-'), sg.Input((fg_stby_com2), size=(7, 1),
-    text_color='red', border_width=(4), key='-stby_com2-')],
+    [sg.Input((fg_com2), size=(7,1), key='-use_com2-', readonly=True, border_width=(4), font='Any 14', text_color='red',
+    background_color='white'), sg.Button('<==>', key='-SWITCH_COM2-', font='Any 14'), sg.Input((fg_stby_com2), size=(7, 1),
+    font='Any 14', text_color='red', border_width=(4), key='-stby_com2-')],
     ]
 
 frame_layout4 = [
     # NAV1 
-    [sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), text_color='red',    
-    background_color='white'), sg.Button('<==>', key='-SWITCH_NAV2-'), sg.Input((fg_stby_nav2), size=(7, 1),
-    text_color='red', border_width=(4), key='-stby_nav2-')],
+    [sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), font='Any 14', text_color='red',    
+    background_color='white'), sg.Button('<==>', key='-SWITCH_NAV2-', font='Any 14'), sg.Input((fg_stby_nav2), size=(7, 1),
+    font='Any 14', text_color='red', border_width=(4), key='-stby_nav2-')],
     ]
 
 layout1 = [
-          [sg.Frame('Com1', frame_layout1, font='Any 12', title_color='white'),
-          sg.Frame('Nav1', frame_layout2, font='Any 12', title_color='white')],
-          [sg.Frame('Com2', frame_layout3, font='Any 12', title_color='white'),
-          sg.Frame('Nav2', frame_layout4, font='Any 12', title_color='white')],
+          [sg.Frame('Com1', frame_layout1, font='Any 14', title_color='white'),
+          sg.Frame('Nav1', frame_layout2, font='Any 14', title_color='white')],
+          [sg.Frame('Com2', frame_layout3, font='Any 14', title_color='white'),
+          sg.Frame('Nav2', frame_layout4, font='Any 14', title_color='white')],
           # Optionsa
           [sg.Button('Keypad', key='-KEYPAD-'), sg.Button('Exit')]
          ]
@@ -122,12 +127,12 @@ while True:
         window1.Hide()
         layout2 = [
             # Radio type
-            [sg.Radio('COM1', 'stack', key='-COM1-', default=True, size=(12, 1)),
-            sg.Radio('COM2', 'stack', key='-COM2-', size=(12, 1))],
+            [sg.Radio('COM1', 'stack', key='-COM1-', default=True, font='Any 12', size=(6, 1)),
+            sg.Radio('COM2', 'stack', key='-COM2-', font='Any 12', size=(6, 1))],
 
             # Radio type
-            [sg.Radio('NAV1', 'stack', key='-NAV1-', size=(12, 1)),
-            sg.Radio('NAV2', 'stack', key='-NAV2-', size=(12, 1))],
+            [sg.Radio('NAV1', 'stack', key='-NAV1-', font='Any 12', size=(6, 1)),
+            sg.Radio('NAV2', 'stack', key='-NAV2-', font='Any 12', size=(6, 1))],
 
             # Lable
             [sg.Text('FREQUENCY')],
@@ -147,7 +152,6 @@ while True:
             
             # Digits and Enter
             [sg.Button('Enter'), sg.Button('0'), sg.Button('.'), sg.Cancel()],
-            # [sg.Text(size=(15, 1), font=('Helvetica', 18), text_color='red', key='out')]
             ]
 
         # Make window visiable
