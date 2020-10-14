@@ -29,25 +29,33 @@ except ConnectionRefusedError:
     ' or did not configure FlightGear - PiStack will exit.', font=(any, 14))
     sys.exit()
 
+# Value
 fg_com1 = fg['/instrumentation/comm/frequencies/selected-mhz']
 fg_stby_com1 = fg['/instrumentation/comm/frequencies/standby-mhz']
-
 fg_com2 = fg['/instrumentation/comm[1]/frequencies/selected-mhz']
 fg_stby_com2 = fg['/instrumentation/comm[1]/frequencies/standby-mhz']
-
 fg_nav1 = fg['/instrumentation/nav/frequencies/selected-mhz']
 fg_stby_nav1 = fg['/instrumentation/nav/frequencies/standby-mhz']
-
 fg_nav2 = fg['/instrumentation/nav[1]/frequencies/selected-mhz']
 fg_stby_nav2 = fg['/instrumentation/nav[1]/frequencies/standby-mhz']
+
+# Boolean 0 or 1
+fg_com1_service = fg['/instrumentation/comm/serviceable']
+fg_com2_service = fg['/instrumentation/comm[1]/serviceable']
+fg_nav1_service = fg['/instrumentation/nav/serviceable']
+fg_nav2_service = fg['/instrumentation/nav[1]/serviceable']
 
 sg.theme('DarkBlack1')
 
 frame_layout1 = [
     # COM1
-    [sg.Input((fg_com1), size=(7,1), key='-use_com1-', readonly=True, border_width=(4), font='Any 14', text_color='red',
+    [sg.Input((fg_com1), size=(7,1), key='-use_com1-', readonly=True, border_width=(4),
+    font='Any 14', text_color='red' if bool(fg_com1_service) else 'black',
     background_color='white'), sg.Button('<==>', key='-SWITCH_COM1-', font='Any 14'), sg.Input((fg_stby_com1), size=(7, 1),
     font='Any 14', text_color='red', border_width=(4), key='-stby_com1-')],
+    [sg.Button('On' if bool(fg_com1_service) else 'Off',
+    button_color='white on green' if bool(fg_com1_service) else 'white on red',
+    size=(3, 1), key='-COM1_ON_OFF-', font='Any 14')],
     ]
 
 frame_layout2 = [
@@ -55,6 +63,9 @@ frame_layout2 = [
     [sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), font='Any 14', text_color='red',    
     background_color='white'), sg.Button('<==>', key='-SWITCH_NAV1-', font='Any 14'), sg.Input((fg_stby_nav1), size=(7, 1),
     font='Any 14', text_color='red', border_width=(4), key='-stby_nav1-')],
+    [sg.Button('On' if bool(fg_nav1_service) else 'Off',
+    button_color='white on green' if bool(fg_nav1_service) else 'white on red',
+    size=(3, 1), key='-NAV1_ON_OFF-', font='Any 14')],
     ]
 
 frame_layout3 = [
@@ -62,6 +73,9 @@ frame_layout3 = [
     [sg.Input((fg_com2), size=(7,1), key='-use_com2-', readonly=True, border_width=(4), font='Any 14', text_color='red',
     background_color='white'), sg.Button('<==>', key='-SWITCH_COM2-', font='Any 14'), sg.Input((fg_stby_com2), size=(7, 1),
     font='Any 14', text_color='red', border_width=(4), key='-stby_com2-')],
+    [sg.Button('On' if bool(fg_com2_service) else 'Off',
+    button_color='white on green' if bool(fg_com2_service) else 'white on red',
+    size=(3, 1), key='-COM2_ON_OFF-', font='Any 14')],
     ]
 
 frame_layout4 = [
@@ -69,21 +83,24 @@ frame_layout4 = [
     [sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), font='Any 14', text_color='red',    
     background_color='white'), sg.Button('<==>', key='-SWITCH_NAV2-', font='Any 14'), sg.Input((fg_stby_nav2), size=(7, 1),
     font='Any 14', text_color='red', border_width=(4), key='-stby_nav2-')],
+    [sg.Button('On' if bool(fg_nav2_service) else 'Off',
+    button_color='white on green' if bool(fg_nav2_service) else 'white on red',
+    size=(3, 1), key='-NAV2_ON_OFF-', font='Any 14')],
     ]
 
 layout1 = [
-          [sg.Frame('Com1', frame_layout1, font='Any 14', title_color='white'),
-          sg.Frame('Nav1', frame_layout2, font='Any 14', title_color='white')],
-          [sg.Frame('Com2', frame_layout3, font='Any 14', title_color='white'),
-          sg.Frame('Nav2', frame_layout4, font='Any 14', title_color='white')],
-          # Optionsa
-          [sg.Button('Keypad', key='-KEYPAD-'), sg.Button('Exit')]
-         ]
+    [sg.Frame('Com1', frame_layout1, font='Any 14', title_color='white'),
+    sg.Frame('Nav1', frame_layout2, font='Any 14', title_color='white')],
+    [sg.Frame('Com2', frame_layout3, font='Any 14', title_color='white'),
+    sg.Frame('Nav2', frame_layout4, font='Any 14', title_color='white')],
+    # Options
+    [sg.Button('Keypad', key='-KEYPAD-'), sg.Button('Exit')]
+    ]
 
 
 window1 = sg.Window('PiStack', layout1, location=(100, 100), size=(800, 480))
 window2_active = False
-  
+
 while True: 
     event1, values1 = window1.read(1000)
     # Un-comment the below to print values to the Python Terminal
@@ -91,9 +108,34 @@ while True:
     
 
     if event1 in  (None, 'Exit'):
-        window1.close()    # ; del window
+        window1.close()
         break
-    
+
+    if event1 == '-COM1_ON_OFF-':
+        fg_com1_service = not bool(fg_com1_service)
+        window1['-COM1_ON_OFF-'].update(text='On' if fg_com1_service else 'Off',
+        button_color='white on green' if fg_com1_service else 'white on red')
+        fg['/instrumentation/comm/serviceable'] = int(fg_com1_service)
+        window1['-use_com1-'].update(text_color='red' if fg_com1_service else 'black')
+
+    if event1 == '-NAV1_ON_OFF-':
+        fg_nav1_service = not bool(fg_nav1_service)
+        window1['-NAV1_ON_OFF-'].update(text='On' if fg_nav1_service else 'Off',
+        button_color='white on green' if fg_nav1_service else 'white on red')
+        fg['/instrumentation/nav/serviceable'] = int(fg_nav1_service)
+
+    if event1 == '-COM2_ON_OFF-':
+        fg_com2_service = not bool(fg_com2_service)
+        window1['-COM2_ON_OFF-'].update(text='On' if fg_com2_service else 'Off',
+        button_color='white on green' if fg_com2_service else 'white on red')
+        fg['/instrumentation/comm[1]/serviceable'] = int(fg_com2_service)
+
+    if event1 == '-NAV2_ON_OFF-':
+        fg_nav2_service = not bool(fg_nav2_service)
+        window1['-NAV2_ON_OFF-'].update(text='On' if fg_nav2_service else 'Off',
+        button_color='white on green' if fg_nav2_service else 'white on red')
+        fg['/instrumentation/nav[1]/serviceable'] = int(fg_nav2_service)
+
     if event1 == '-SWITCH_COM1-': 
         # Swap COM1 frequency
         window1['-use_com1-'].update(values1['-stby_com1-'])
@@ -107,21 +149,21 @@ while True:
         window1['-stby_nav1-'].update(values1['-use_nav1-'])
         fg['/instrumentation/nav/frequencies/selected-mhz'] = values1['-stby_nav1-']
         fg['/instrumentation/nav/frequencies/standby-mhz'] = values1['-use_nav1-']
-        
+
     if event1 == '-SWITCH_COM2-': 
         # Swap COM2 frequncy
         window1['-use_com2-'].update(values1['-stby_com2-'])
         window1['-stby_com2-'].update(values1['-use_com2-'])
         fg['/instrumentation/comm[1]/frequencies/selected-mhz'] = values1['-stby_com2-']
         fg['/instrumentation/comm[1]/frequencies/standby-mhz'] = values1['-use_com2-']
-        
+
     if event1 == '-SWITCH_NAV2-': 
         # Swap NAV2 frequncy
         window1['-use_nav2-'].update(values1['-stby_nav2-'])
         window1['-stby_nav2-'].update(values1['-use_nav2-'])
         fg['/instrumentation/nav[1]/frequencies/selected-mhz'] = values1['-stby_nav2-']
         fg['/instrumentation/nav[1]/frequencies/standby-mhz'] = values1['-use_nav2-']
-        
+
     if event1 == '-KEYPAD-' and not window2_active:
         window2_active = True
         window1.Hide()
@@ -158,10 +200,10 @@ while True:
         window2 = sg.Window('Keypad', layout2, default_button_element_size=(5,2), auto_size_buttons=False)
 
         keys_entered = ''
-    
+
         while True:
             event2, values2 = window2.read(1000)
-            
+
             if event2 in (sg.WIN_CLOSED, 'Quit', 'Cancel'):
                 window2.close()
                 window2_active = False
@@ -171,14 +213,14 @@ while True:
             if event2 == 'Clear':
                 keys_entered = ''
                 window2['input'].update(keys_entered)
-                
+
             if event2 in '1234567890.':
                 keys_entered = values2['input']
                 keys_entered += event2
                 window2['input'].update(keys_entered)
-                
 
-                
+
+
             if event2 == 'Enter':
 
                 if values2['-COM1-'] == True:
@@ -196,7 +238,7 @@ while True:
                 elif values2['-NAV2-'] == True:
                     window1['-stby_nav2-'].update(keys_entered)
                     fg['/instrumentation/nav[1]/frequencies/standby-mhz'] = keys_entered
-        
+
                 window2.close()
                 window2_active = False
                 window1.UnHide()
