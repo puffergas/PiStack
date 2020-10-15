@@ -48,57 +48,89 @@ fg_nav2_service = fg['/instrumentation/nav[1]/serviceable']
 sg.theme('DarkBlack1')
 
 frame_layout1 = [
-    # COM1
+    # -----     COM1     -----
+    # Active frequency
     [sg.Input((fg_com1), size=(7,1), key='-use_com1-', readonly=True, border_width=(4),
-    font='Any 14', text_color='red' if bool(fg_com1_service) else 'black',
-    background_color='white'), sg.Button('<==>', key='-SWITCH_COM1-', font='Any 14'), sg.Input((fg_stby_com1), size=(7, 1),
-    font='Any 14', text_color='red', border_width=(4), key='-stby_com1-')],
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_com1_service) else 'Gray',
+    background_color='white'),
+
+    # Exchange frequncies, button
+    sg.Button('<==>', key='-SWITCH_COM1-', font=('any', 14)),
+
+    # Standy by frequency
+    sg.Input((fg_stby_com1), size=(7, 1), font=('any', 16, 'bold'), text_color='red' if bool(fg_com1_service) else 'Gray',
+    border_width=(4), key='-stby_com1-'),
+    ],
+
+    # On Off, button
     [sg.Button('On' if bool(fg_com1_service) else 'Off',
     button_color='white on green' if bool(fg_com1_service) else 'white on red',
-    size=(3, 1), key='-COM1_ON_OFF-', font='Any 14')],
-    ]
+    size=(3, 1), key='-COM1_ON_OFF-', font='Any 14'),
+    ],
+]
 
 frame_layout2 = [
     # NAV1 
-    [sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), font='Any 14', text_color='red',    
-    background_color='white'), sg.Button('<==>', key='-SWITCH_NAV1-', font='Any 14'), sg.Input((fg_stby_nav1), size=(7, 1),
-    font='Any 14', text_color='red', border_width=(4), key='-stby_nav1-')],
+    [sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), font=('any', 16, 'bold'),
+    text_color='red' if bool(fg_nav1_service) else 'Gray', background_color='white'),
+
+    sg.Button('<==>', key='-SWITCH_NAV1-', font='Any 14'),
+
+    sg.Input((fg_stby_nav1), size=(7, 1),
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_nav1_service) else 'Gray', border_width=(4), key='-stby_nav1-'),
+    ],
+
     [sg.Button('On' if bool(fg_nav1_service) else 'Off',
     button_color='white on green' if bool(fg_nav1_service) else 'white on red',
-    size=(3, 1), key='-NAV1_ON_OFF-', font='Any 14')],
-    ]
+    size=(3, 1), key='-NAV1_ON_OFF-', font='Any 14'),
+    ],
+]
 
 frame_layout3 = [
     # COM1
-    [sg.Input((fg_com2), size=(7,1), key='-use_com2-', readonly=True, border_width=(4), font='Any 14', text_color='red',
-    background_color='white'), sg.Button('<==>', key='-SWITCH_COM2-', font='Any 14'), sg.Input((fg_stby_com2), size=(7, 1),
-    font='Any 14', text_color='red', border_width=(4), key='-stby_com2-')],
+    [sg.Input((fg_com2), size=(7,1), key='-use_com2-', readonly=True, border_width=(4), font=('any', 16, 'bold'),
+    text_color='red' if bool(fg_com2_service) else 'Gray', background_color='white'),
+
+    sg.Button('<==>', key='-SWITCH_COM2-', font='Any 14'),
+
+    sg.Input((fg_stby_com2), size=(7, 1),
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_com2_service) else 'Gray', border_width=(4), key='-stby_com2-'),
+    ],
+
     [sg.Button('On' if bool(fg_com2_service) else 'Off',
     button_color='white on green' if bool(fg_com2_service) else 'white on red',
-    size=(3, 1), key='-COM2_ON_OFF-', font='Any 14')],
-    ]
+    size=(3, 1), key='-COM2_ON_OFF-', font='Any 14'),
+    ],
+]
 
 frame_layout4 = [
     # NAV1 
-    [sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), font='Any 14', text_color='red',    
-    background_color='white'), sg.Button('<==>', key='-SWITCH_NAV2-', font='Any 14'), sg.Input((fg_stby_nav2), size=(7, 1),
-    font='Any 14', text_color='red', border_width=(4), key='-stby_nav2-')],
+    [sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), font=('any', 16, 'bold'),
+    text_color='red' if bool(fg_nav2_service) else 'Gray', background_color='white'),
+
+    sg.Button('<==>', key='-SWITCH_NAV2-', font='Any 14'),
+
+    sg.Input((fg_stby_nav2), size=(7, 1),
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_nav2_service) else 'Gray', border_width=(4), key='-stby_nav2-'),
+    ],
+
     [sg.Button('On' if bool(fg_nav2_service) else 'Off',
     button_color='white on green' if bool(fg_nav2_service) else 'white on red',
-    size=(3, 1), key='-NAV2_ON_OFF-', font='Any 14')],
-    ]
+    size=(3, 1), key='-NAV2_ON_OFF-', font='Any 14'),
+    ],
+]
 
 layout1 = [
-    [sg.Frame('Com1', frame_layout1, font='Any 14', title_color='white'),
-    sg.Frame('Nav1', frame_layout2, font='Any 14', title_color='white')],
-    [sg.Frame('Com2', frame_layout3, font='Any 14', title_color='white'),
-    sg.Frame('Nav2', frame_layout4, font='Any 14', title_color='white')],
+    [sg.Frame('Com1', frame_layout1, border_width=(10), font='Any 14', title_color='white'),
+    sg.Frame('Nav1', frame_layout2, border_width=(10), font='Any 14', title_color='white')],
+    [sg.Frame('Com2', frame_layout3, border_width=(10), font='Any 14', title_color='white'),
+    sg.Frame('Nav2', frame_layout4, border_width=(10), font='Any 14', title_color='white')],
     # Options
-    [sg.Button('Keypad', key='-KEYPAD-'), sg.Button('Exit')]
-    ]
+    [sg.Button('Keypad', key='-KEYPAD-', font='Any 14'), sg.Button('Exit', font='Any 14')]
+]
 
 
-window1 = sg.Window('PiStack', layout1, location=(100, 100), size=(800, 480))
+window1 = sg.Window('PiStack', layout1, location=(0, 0), size=(800, 480))
 window2_active = False
 
 while True: 
@@ -116,25 +148,32 @@ while True:
         window1['-COM1_ON_OFF-'].update(text='On' if fg_com1_service else 'Off',
         button_color='white on green' if fg_com1_service else 'white on red')
         fg['/instrumentation/comm/serviceable'] = int(fg_com1_service)
-        window1['-use_com1-'].update(text_color='red' if fg_com1_service else 'black')
+        window1['-use_com1-'].update(text_color='red' if fg_com1_service else 'Gray')
+        window1['-stby_com1-'].update(text_color='red' if fg_com1_service else 'Gray')
 
     if event1 == '-NAV1_ON_OFF-':
         fg_nav1_service = not bool(fg_nav1_service)
         window1['-NAV1_ON_OFF-'].update(text='On' if fg_nav1_service else 'Off',
         button_color='white on green' if fg_nav1_service else 'white on red')
         fg['/instrumentation/nav/serviceable'] = int(fg_nav1_service)
+        window1['-use_nav1-'].update(text_color='red' if fg_nav1_service else 'Gray')
+        window1['-stby_nav1-'].update(text_color='red' if fg_nav1_service else 'Gray')
 
     if event1 == '-COM2_ON_OFF-':
         fg_com2_service = not bool(fg_com2_service)
         window1['-COM2_ON_OFF-'].update(text='On' if fg_com2_service else 'Off',
         button_color='white on green' if fg_com2_service else 'white on red')
         fg['/instrumentation/comm[1]/serviceable'] = int(fg_com2_service)
+        window1['-use_com2-'].update(text_color='red' if fg_com2_service else 'Gray')
+        window1['-stby_com2-'].update(text_color='red' if fg_com2_service else 'Gray')
 
     if event1 == '-NAV2_ON_OFF-':
         fg_nav2_service = not bool(fg_nav2_service)
         window1['-NAV2_ON_OFF-'].update(text='On' if fg_nav2_service else 'Off',
         button_color='white on green' if fg_nav2_service else 'white on red')
         fg['/instrumentation/nav[1]/serviceable'] = int(fg_nav2_service)
+        window1['-use_nav2-'].update(text_color='red' if fg_nav2_service else 'Gray')
+        window1['-stby_nav2-'].update(text_color='red' if fg_nav2_service else 'Gray')
 
     if event1 == '-SWITCH_COM1-': 
         # Swap COM1 frequency
