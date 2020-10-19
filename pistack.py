@@ -42,10 +42,10 @@ fg_vol_com1 = fg['/instrumentation/comm/volume']
 fg_vol_com2 = fg['/instrumentation/comm[1]/volume']
 
 # Boolean 0 or 1
-fg_com1_service = fg['/instrumentation/comm/serviceable']
-fg_com2_service = fg['/instrumentation/comm[1]/serviceable']
-fg_nav1_service = fg['/instrumentation/nav/serviceable']
-fg_nav2_service = fg['/instrumentation/nav[1]/serviceable']
+fg_com1_power_btn = fg['/instrumentation/comm/power-btn']
+fg_com2_power_btn = fg['/instrumentation/comm[1]/power-btn']
+fg_nav1_power_btn = fg['/instrumentation/nav/power-btn']
+fg_nav2_power_btn = fg['/instrumentation/nav[1]/power-btn']
 
 sg.theme('DarkBlack1')
 
@@ -53,18 +53,18 @@ frame_layout1 = [
     # -----     COM1     -----
     # Active frequency
     [sg.Input((fg_com1), size=(7,1), key='-use_com1-', readonly=True, border_width=(4),
-    font=('any', 16, 'bold'), text_color='red' if bool(fg_com1_service) else 'Gray',
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_com1_power_btn) else 'Gray',
     background_color='white'),
     # Exchange frequncies, button
     sg.Button('<==>', key='-SWITCH_COM1-', font=('any', 14)),
     # Standy frequency
-    sg.Input((fg_stby_com1), size=(7, 1), font=('any', 16, 'bold'), text_color='red' if bool(fg_com1_service) else 'Gray',
+    sg.Input((fg_stby_com1), size=(7, 1), font=('any', 16, 'bold'), text_color='red' if bool(fg_com1_power_btn) else 'Gray',
     border_width=(4), key='-stby_com1-'),
     ],
 
     # On Off, button 
-    [sg.Button('On' if bool(fg_com1_service) else 'Off',
-    button_color='white on green' if bool(fg_com1_service) else 'white on red',
+    [sg.Button('On' if bool(fg_com1_power_btn) else 'Off',
+    button_color='white on green' if bool(fg_com1_power_btn) else 'white on red',
     size=(3, 1), key='-COM1_ON_OFF-', font='Any 14',pad=((6,0),(20,4))),
     # Volume
     sg.Slider(range=(0.0, 1.0), resolution=0.1, key='-VOL_COM1-',  default_value=fg_vol_com1, pad=((50,10),(20,4)),
@@ -77,16 +77,16 @@ frame_layout2 = [
     # -----     NAV1 -----
     # Active frequency
     [sg.Input((fg_nav1), size=(7,1), key='-use_nav1-', readonly=True, border_width=(4), font=('any', 16, 'bold'),
-    text_color='red' if bool(fg_nav1_service) else 'Gray', background_color='white'),
+    text_color='red' if bool(fg_nav1_power_btn) else 'Gray', background_color='white'),
     # Exchange frequncy, button
     sg.Button('<==>', key='-SWITCH_NAV1-', font='Any 14'),
     # Standby frequency
     sg.Input((fg_stby_nav1), size=(7, 1),
-    font=('any', 16, 'bold'), text_color='red' if bool(fg_nav1_service) else 'Gray', border_width=(4), key='-stby_nav1-'),
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_nav1_power_btn) else 'Gray', border_width=(4), key='-stby_nav1-'),
     ],
     # On Off, button
-    [sg.Button('On' if bool(fg_nav1_service) else 'Off',
-    button_color='white on green' if bool(fg_nav1_service) else 'white on red',
+    [sg.Button('On' if bool(fg_nav1_power_btn) else 'Off',
+    button_color='white on green' if bool(fg_nav1_power_btn) else 'white on red',
     size=(3, 1), key='-NAV1_ON_OFF-', font='Any 14', pad=((6,0),(20,4))),
     ],
 ]
@@ -95,16 +95,16 @@ frame_layout3 = [
     # ----- COM2 -----
     # Active frequncy
     [sg.Input((fg_com2), size=(7,1), key='-use_com2-', readonly=True, border_width=(4), font=('any', 16, 'bold'),
-    text_color='red' if bool(fg_com2_service) else 'Gray', background_color='white'),
+    text_color='red' if bool(fg_com2_power_btn) else 'Gray', background_color='white'),
     # Exchange frequency, button
     sg.Button('<==>', key='-SWITCH_COM2-', font='Any 14'),
     # Standby frequency
     sg.Input((fg_stby_com2), size=(7, 1),
-    font=('any', 16, 'bold'), text_color='red' if bool(fg_com2_service) else 'Gray', border_width=(4), key='-stby_com2-'),
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_com2_power_btn) else 'Gray', border_width=(4), key='-stby_com2-'),
     ],
     # On Off, button
-    [sg.Button('On' if bool(fg_com2_service) else 'Off',
-    button_color='white on green' if bool(fg_com2_service) else 'white on red',
+    [sg.Button('On' if bool(fg_com2_power_btn) else 'Off',
+    button_color='white on green' if bool(fg_com2_power_btn) else 'white on red',
     size=(3, 1), key='-COM2_ON_OFF-', font='Any 14', pad=((6,0),(20,4))),
     # Volume
     sg.Slider(range=(0.0, 1.0), resolution=0.1, key='-VOL_COM2-',  default_value=fg_vol_com1, pad=((50,10),(20,4)),
@@ -117,16 +117,16 @@ frame_layout4 = [
     # ----- NAV2 -----
     # Active frequency
     [sg.Input((fg_nav2), size=(7,1), key='-use_nav2-', readonly=True, border_width=(4), font=('any', 16, 'bold'),
-    text_color='red' if bool(fg_nav2_service) else 'Gray', background_color='white'),
+    text_color='red' if bool(fg_nav2_power_btn) else 'Gray', background_color='white'),
     # Exchange frequency, button
     sg.Button('<==>', key='-SWITCH_NAV2-', font='Any 14'),
     # Standby frequency
     sg.Input((fg_stby_nav2), size=(7, 1),
-    font=('any', 16, 'bold'), text_color='red' if bool(fg_nav2_service) else 'Gray', border_width=(4), key='-stby_nav2-'),
+    font=('any', 16, 'bold'), text_color='red' if bool(fg_nav2_power_btn) else 'Gray', border_width=(4), key='-stby_nav2-'),
     ],
     # On Off, button
-    [sg.Button('On' if bool(fg_nav2_service) else 'Off',
-    button_color='white on green' if bool(fg_nav2_service) else 'white on red',
+    [sg.Button('On' if bool(fg_nav2_power_btn) else 'Off',
+    button_color='white on green' if bool(fg_nav2_power_btn) else 'white on red',
     size=(3, 1), key='-NAV2_ON_OFF-', font='Any 14', pad=((6,0),(20,4))),
     ],
 ]
@@ -155,36 +155,36 @@ while True:
         break
 
     if event1 == '-COM1_ON_OFF-':
-        fg_com1_service = not bool(fg_com1_service)
-        window1['-COM1_ON_OFF-'].update(text='On' if fg_com1_service else 'Off',
-        button_color='white on green' if fg_com1_service else 'white on red')
-        fg['/instrumentation/comm/serviceable'] = int(fg_com1_service)
-        window1['-use_com1-'].update(text_color='red' if fg_com1_service else 'Gray')
-        window1['-stby_com1-'].update(text_color='red' if fg_com1_service else 'Gray')
+        fg_com1_power_btn = not bool(fg_com1_power_btn)
+        window1['-COM1_ON_OFF-'].update(text='On' if fg_com1_power_btn else 'Off',
+        button_color='white on green' if fg_com1_power_btn else 'white on red')
+        fg['/instrumentation/comm/power-btn'] = int(fg_com1_power_btn)
+        window1['-use_com1-'].update(text_color='red' if fg_com1_power_btn else 'Gray')
+        window1['-stby_com1-'].update(text_color='red' if fg_com1_power_btn else 'Gray')
 
     if event1 == '-NAV1_ON_OFF-':
-        fg_nav1_service = not bool(fg_nav1_service)
-        window1['-NAV1_ON_OFF-'].update(text='On' if fg_nav1_service else 'Off',
-        button_color='white on green' if fg_nav1_service else 'white on red')
-        fg['/instrumentation/nav/serviceable'] = int(fg_nav1_service)
-        window1['-use_nav1-'].update(text_color='red' if fg_nav1_service else 'Gray')
-        window1['-stby_nav1-'].update(text_color='red' if fg_nav1_service else 'Gray')
+        fg_nav1_power_btn = not bool(fg_nav1_power_btn)
+        window1['-NAV1_ON_OFF-'].update(text='On' if fg_nav1_power_btn else 'Off',
+        button_color='white on green' if fg_nav1_power_btn else 'white on red')
+        fg['/instrumentation/nav/power-btn'] = int(fg_nav1_power_btn)
+        window1['-use_nav1-'].update(text_color='red' if fg_nav1_power_btn else 'Gray')
+        window1['-stby_nav1-'].update(text_color='red' if fg_nav1_power_btn else 'Gray')
 
     if event1 == '-COM2_ON_OFF-':
-        fg_com2_service = not bool(fg_com2_service)
-        window1['-COM2_ON_OFF-'].update(text='On' if fg_com2_service else 'Off',
-        button_color='white on green' if fg_com2_service else 'white on red')
-        fg['/instrumentation/comm[1]/serviceable'] = int(fg_com2_service)
-        window1['-use_com2-'].update(text_color='red' if fg_com2_service else 'Gray')
-        window1['-stby_com2-'].update(text_color='red' if fg_com2_service else 'Gray')
+        fg_com2_power_btn = not bool(fg_com2_power_btn)
+        window1['-COM2_ON_OFF-'].update(text='On' if fg_com2_power_btn else 'Off',
+        button_color='white on green' if fg_com2_power_btn else 'white on red')
+        fg['/instrumentation/comm[1]/power-btn'] = int(fg_com2_power_btn)
+        window1['-use_com2-'].update(text_color='red' if fg_com2_power_btn else 'Gray')
+        window1['-stby_com2-'].update(text_color='red' if fg_com2_power_btn else 'Gray')
 
     if event1 == '-NAV2_ON_OFF-':
-        fg_nav2_service = not bool(fg_nav2_service)
-        window1['-NAV2_ON_OFF-'].update(text='On' if fg_nav2_service else 'Off',
-        button_color='white on green' if fg_nav2_service else 'white on red')
-        fg['/instrumentation/nav[1]/serviceable'] = int(fg_nav2_service)
-        window1['-use_nav2-'].update(text_color='red' if fg_nav2_service else 'Gray')
-        window1['-stby_nav2-'].update(text_color='red' if fg_nav2_service else 'Gray')
+        fg_nav2_power_btn = not bool(fg_nav2_power_btn)
+        window1['-NAV2_ON_OFF-'].update(text='On' if fg_nav2_power_btn else 'Off',
+        button_color='white on green' if fg_nav2_power_btn else 'white on red')
+        fg['/instrumentation/nav[1]/power-btn'] = int(fg_nav2_power_btn)
+        window1['-use_nav2-'].update(text_color='red' if fg_nav2_power_btn else 'Gray')
+        window1['-stby_nav2-'].update(text_color='red' if fg_nav2_power_btn else 'Gray')
 
     if event1 == '-SWITCH_COM1-': 
         # Swap COM1 frequency
