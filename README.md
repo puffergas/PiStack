@@ -1,10 +1,10 @@
 # PiStack
 
 Main Screen
-![Main Screen](https://imgur.com/An9qOjD)
+![Main Screen](https://i.imgur.com/An9qOjD.png)
 
 Keypad
-![Keypad](https://imgur.com/oJJ0eg4 "Keypad")
+![Keypad](https://i.imgur.com/oJJ0eg4.png)
 
 # Dependencies
 
@@ -13,3 +13,5 @@ Keypad
 # Install
 
 # Logic Holes
+
+1. FlightGear needs to be configured and running before PiStack can run.
