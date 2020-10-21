@@ -1,17 +1,24 @@
 # PiStack
+PiStack is a remote radio interface for FlightGear, that is designed to
+work with the Raspberry Pi Official thouch screen.However it should run
+on other devices the can run Python.
 
-Main Screen
+## Screenshots
 ![Main Screen](https://i.imgur.com/An9qOjD.png)
 
-Keypad
 ![Keypad](https://i.imgur.com/oJJ0eg4.png)
 
-# Dependencies
+## Dependencies
+Dependencies:
+1. Python
+2. PySimpleGUI
 
-1. PySimpleGUI
+## Install
 
-# Install
-
-# Logic Holes
-
+## Logic Holes
+Logic Holes:
 1. FlightGear needs to be configured and running before PiStack can run.
+2. PiStack will go out of sync if radio settings are changed from
+FlightGear.
+
+## Links
