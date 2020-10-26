@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Categories=Game;Simulation
+Terminal=false
+Exec=python3 /home/pi/PiStack/pistack.py
+Name=PiStack
+Icon=/home/pi/PiStack/PiStack_Icon.png

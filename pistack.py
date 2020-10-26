@@ -67,7 +67,7 @@ frame_layout1 = [
     button_color='white on green' if bool(fg_com1_power_btn) else 'white on red',
     size=(3, 1), key='-COM1_ON_OFF-', font='Any 14',pad=((6,0),(20,4))),
     # Volume
-    sg.Slider(range=(0.0, 1.0), resolution=0.1, key='-VOL_COM1-',  default_value=fg_vol_com1, pad=((50,10),(20,4)),
+    sg.Slider(range=(0.0, 1.0), resolution=0.1, key='-VOL_COM1-', default_value=fg_vol_com1, pad=((50,10),(20,4)),
     size=(10, 34), orientation='horizontal', disable_number_display=True, enable_events=True, font=('any', 12)),
     sg.Text('Volume', font=('any', 14), pad=((4,4),(20,4))),
     ],
@@ -107,7 +107,7 @@ frame_layout3 = [
     button_color='white on green' if bool(fg_com2_power_btn) else 'white on red',
     size=(3, 1), key='-COM2_ON_OFF-', font='Any 14', pad=((6,0),(20,4))),
     # Volume
-    sg.Slider(range=(0.0, 1.0), resolution=0.1, key='-VOL_COM2-',  default_value=fg_vol_com1, pad=((50,10),(20,4)),
+    sg.Slider(range=(0.0, 1.0), resolution=0.1, key='-VOL_COM2-', default_value=fg_vol_com2, pad=((50,10),(20,4)),
     size=(10, 34), orientation='horizontal', disable_number_display=True, enable_events=True, font=('any', 12)),
     sg.Text('Volume', font=('any', 14), pad=((4,4),(20,4))),
     ],
@@ -219,7 +219,7 @@ while True:
         fg['/instrumentation/comm/volume'] = values1['-VOL_COM1-']
 
     if event1 == '-VOL_COM2-':
-        # Adjust volume of COM1, slider
+        # Adjust volume of COM2, slider
         fg['/instrumentation/comm[1]/volume'] = values1['-VOL_COM2-']
 
     if event1 == '-KEYPAD-' and not window2_active:
