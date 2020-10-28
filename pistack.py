@@ -227,35 +227,49 @@ while True:
         window1.Hide()
         layout2 = [
             # Radio type
-            [sg.Radio('COM1', 'stack', key='-COM1-', default=True, font='Any 12', size=(6, 1)),
-            sg.Radio('COM2', 'stack', key='-COM2-', font='Any 12', size=(6, 1))],
+            #[sg.Radio('COM1', 'stack', key='-COM1-', default=True, font='Any 18', size=(6, 1)),
+            #sg.Radio('COM2', 'stack', key='-COM2-', font='Any 18', size=(6, 1))],
 
             # Radio type
-            [sg.Radio('NAV1', 'stack', key='-NAV1-', font='Any 12', size=(6, 1)),
-            sg.Radio('NAV2', 'stack', key='-NAV2-', font='Any 12', size=(6, 1))],
+            #[sg.Radio('NAV1', 'stack', key='-NAV1-', font='Any 18', size=(6, 1)),
+            #sg.Radio('NAV2', 'stack', key='-NAV2-', font='Any 18', size=(6, 1))],
 
             # Lable
             [sg.Text('FREQUENCY')],
             
             # Frequncy to send to FlightGear
-            [sg.Input(size=(7, 1), justification='right', border_width=(4), font=('Helvetica', 20),
-            text_color='red', key='input'), sg.Button('Clear')],
+            [sg.Input(('1'), size=(7, 1), justification='right', border_width=(4), font=('Helvetica', 28), pad=((6,20),(0,0)),
+            text_color='red', key='input'), sg.Button('Clear'),
+            ],
             
             # Digit
-            [sg.Button('1'), sg.Button('2'), sg.Button('3')],
+            [sg.Button(('1'), border_width=(8)), sg.Button(('2'), border_width=(8)), sg.Button(('3'), border_width=(8)),
+            # Radio type
+            sg.Radio('COM1', 'stack', key='-COM1-', default=True, font='Any 18', size=(8, 1)),
+            sg.Radio('NAV1', 'stack', key='-NAV1-', font='Any 18', size=(8, 1)),
+            ],
             
             # Digit
-            [sg.Button('4'), sg.Button('5'), sg.Button('6')],
+            [sg.Button(('4'), border_width=(8)), sg.Button(('5'), border_width=(8)), sg.Button(('6'), border_width=(8)),
+            # Radio type
+            sg.Radio('COM2', 'stack', key='-COM2-', font='Any 18', size=(8, 1)),
+            sg.Radio('NAV2', 'stack', key='-NAV2-', font='Any 18', size=(8, 1)),
+            ],
             
             # Digit
-            [sg.Button('7'), sg.Button('8'), sg.Button('9')],
+            [sg.Button(('7'), border_width=(8)), sg.Button(('8'), border_width=(8)), sg.Button(('9'), border_width=(8)),
+            # Radio type
+            sg.Radio('NAV1 deg', 'stack', key='-NAV1_deg-', font='Any 18', size=(8, 1)),
+            sg.Radio('NAV2 deg', 'stack', key='-NAV2_deg-', font='Any 18', size=(8, 1)),
+            ],
             
             # Digits and Enter
-            [sg.Button('Enter'), sg.Button('0'), sg.Button('.'), sg.Cancel()],
+            [sg.Button(('Enter'), border_width=(8)), sg.Button(('0'), border_width=(8)),
+            sg.Button(('.'), border_width=(8)), sg.Cancel()],
             ]
 
         # Make Keypad window visiable
-        window2 = sg.Window('Keypad', layout2, default_button_element_size=(5,2), auto_size_buttons=False)
+        window2 = sg.Window('Keypad', layout2, default_button_element_size=(6,2), font=('Helvetica', 16), auto_size_buttons=False)
 
         keys_entered = ''
 
