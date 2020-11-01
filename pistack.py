@@ -40,6 +40,8 @@ fg_nav2 = fg['/instrumentation/nav[1]/frequencies/selected-mhz']
 fg_stby_nav2 = fg['/instrumentation/nav[1]/frequencies/standby-mhz']
 fg_vol_com1 = fg['/instrumentation/comm/volume']
 fg_vol_com2 = fg['/instrumentation/comm[1]/volume']
+fg_nav1_deg = fg['/instrumentation/nav/radials/selected-deg']
+fg_nav2_deg = fg['/instrumentation/nav[1]/radials/selected-deg']
 
 # Boolean 0 or 1
 fg_com1_power_btn = fg['/instrumentation/comm/power-btn']
@@ -84,10 +86,15 @@ frame_layout2 = [
     sg.Input((fg_stby_nav1), size=(7, 1),
     font=('any', 16, 'bold'), text_color='red' if bool(fg_nav1_power_btn) else 'Gray', border_width=(4), key='-stby_nav1-'),
     ],
+    
     # On Off, button
     [sg.Button('On' if bool(fg_nav1_power_btn) else 'Off',
     button_color='white on green' if bool(fg_nav1_power_btn) else 'white on red',
     size=(3, 1), key='-NAV1_ON_OFF-', font='Any 14', pad=((6,0),(20,4))),
+    # Nav1 degrees
+    sg.Input(int(fg_nav1_deg), size=(7,1), key='-nav1_deg-', border_width=(4), font=('any', 16, 'bold'),
+    text_color='red' if bool(fg_nav1_power_btn) else 'Gray', background_color='white', pad=((20,0),(20,4))),
+    sg.Text('Deg', font=('any', 14), pad=((4,4),(20,4))),
     ],
 ]
 
@@ -102,6 +109,7 @@ frame_layout3 = [
     sg.Input((fg_stby_com2), size=(7, 1),
     font=('any', 16, 'bold'), text_color='red' if bool(fg_com2_power_btn) else 'Gray', border_width=(4), key='-stby_com2-'),
     ],
+
     # On Off, button
     [sg.Button('On' if bool(fg_com2_power_btn) else 'Off',
     button_color='white on green' if bool(fg_com2_power_btn) else 'white on red',
@@ -124,10 +132,15 @@ frame_layout4 = [
     sg.Input((fg_stby_nav2), size=(7, 1),
     font=('any', 16, 'bold'), text_color='red' if bool(fg_nav2_power_btn) else 'Gray', border_width=(4), key='-stby_nav2-'),
     ],
+
     # On Off, button
     [sg.Button('On' if bool(fg_nav2_power_btn) else 'Off',
     button_color='white on green' if bool(fg_nav2_power_btn) else 'white on red',
     size=(3, 1), key='-NAV2_ON_OFF-', font='Any 14', pad=((6,0),(20,4))),
+    # Nav2 degrees
+    sg.Input(int(fg_nav2_deg), size=(7,1), key='-nav2_deg-', border_width=(4), font=('any', 16, 'bold'),
+    text_color='red' if bool(fg_nav2_power_btn) else 'Gray', background_color='white', pad=((20,0),(20,4))),
+    sg.Text('Deg', font=('any', 14), pad=((4,4),(20,4))),
     ],
 ]
 
@@ -226,14 +239,6 @@ while True:
         window2_active = True
         window1.Hide()
         layout2 = [
-            # Radio type
-            #[sg.Radio('COM1', 'stack', key='-COM1-', default=True, font='Any 18', size=(6, 1)),
-            #sg.Radio('COM2', 'stack', key='-COM2-', font='Any 18', size=(6, 1))],
-
-            # Radio type
-            #[sg.Radio('NAV1', 'stack', key='-NAV1-', font='Any 18', size=(6, 1)),
-            #sg.Radio('NAV2', 'stack', key='-NAV2-', font='Any 18', size=(6, 1))],
-
             # Lable
             [sg.Text('FREQUENCY')],
             
@@ -259,11 +264,11 @@ while True:
             # Digit
             [sg.Button(('7'), border_width=(8)), sg.Button(('8'), border_width=(8)), sg.Button(('9'), border_width=(8)),
             # Radio type
-            sg.Radio('NAV1 deg', 'stack', key='-NAV1_deg-', font='Any 18', size=(8, 1)),
-            sg.Radio('NAV2 deg', 'stack', key='-NAV2_deg-', font='Any 18', size=(8, 1)),
+            sg.Radio('NAV1 deg', 'stack', key='-NAV1_deg-', font='Any 18', size=(8, 1), enable_events=True),
+            sg.Radio('NAV2 deg', 'stack', key='-NAV2_deg-', font='Any 18', size=(8, 1), enable_events=True),
             ],
             
-            # Digits and Enter
+            # Digits, Cancel and Enter
             [sg.Button(('Enter'), border_width=(8)), sg.Button(('0'), border_width=(8)),
             sg.Button(('.'), border_width=(8)), sg.Cancel()],
             ]
@@ -291,6 +296,14 @@ while True:
                 keys_entered += event2
                 window2['input'].update(keys_entered)
 
+            if event2 =='-NAV1_deg-':
+                keys_entered = ''
+                window2['input'].update(keys_entered)
+
+            if event2 =='-NAV2_deg-':
+                keys_entered = ''
+                window2['input'].update(keys_entered)
+
 
 
             if event2 == 'Enter':
@@ -310,6 +323,15 @@ while True:
                 elif values2['-NAV2-'] == True:
                     window1['-stby_nav2-'].update(keys_entered)
                     fg['/instrumentation/nav[1]/frequencies/standby-mhz'] = keys_entered
+
+                elif values2['-NAV1_deg-'] == True:
+                    window1['-nav1_deg-'].update(keys_entered)
+                    fg['/instrumentation/nav/radials/selected-deg'] = keys_entered
+
+                elif values2['-NAV2_deg-'] == True:
+                    window1['-nav2_deg-'].update(keys_entered)
+                    fg['/instrumentation/nav[1]/radials/selected-deg'] = keys_entered
+
 
                 window2.close()
                 window2_active = False
