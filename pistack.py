@@ -42,6 +42,7 @@ fg_vol_com1 = fg['/instrumentation/comm/volume']
 fg_vol_com2 = fg['/instrumentation/comm[1]/volume']
 fg_nav1_deg = fg['/instrumentation/nav/radials/selected-deg']
 fg_nav2_deg = fg['/instrumentation/nav[1]/radials/selected-deg']
+fg_alti_inhg = fg['/instrumentation/altimeter/setting-inhg']
 
 # Boolean 0 or 1
 fg_com1_power_btn = fg['/instrumentation/comm/power-btn']
@@ -144,13 +145,26 @@ frame_layout4 = [
     ],
 ]
 
+frame_layout5 = [
+    # Options
+    [sg.Button('Keypad', key='-KEYPAD-', font='Any 18'), sg.Button('Exit', font='Any 18')]
+]
+
+frame_layout6 = [
+    # inhg
+    [sg.Input((fg_alti_inhg), size=(7,1), key='-alti_inhg-', border_width=(4), font=('any', 16, 'bold'),
+    text_color='red'),
+    sg.Text('inHg', font=('any', 14)),
+    ]
+]
+
 layout1 = [
     [sg.Frame('Com1', frame_layout1, border_width=(10), font='Any 14', title_color='white'),
     sg.Frame('Nav1', frame_layout2, border_width=(10), font='Any 14', title_color='white')],
     [sg.Frame('Com2', frame_layout3, border_width=(10), font='Any 14', title_color='white'),
     sg.Frame('Nav2', frame_layout4, border_width=(10), font='Any 14', title_color='white')],
-    # Options
-    [sg.Button('Keypad', key='-KEYPAD-', font='Any 14'), sg.Button('Exit', font='Any 14')]
+    [sg.Frame('Options', frame_layout5, border_width=(10), font='Any 14', title_color='white'),
+    sg.Frame('Altimeter Setting', frame_layout6, border_width=(10), font='Any 14', title_color='white')],
 ]
 
 
@@ -270,8 +284,10 @@ while True:
             
             # Digits, Cancel and Enter
             [sg.Button(('Enter'), border_width=(8)), sg.Button(('0'), border_width=(8)),
-            sg.Button(('.'), border_width=(8)), sg.Cancel()],
-            ]
+            sg.Button(('.'), border_width=(8)), sg.Cancel(),
+            sg.Radio('inHg', 'stack', key='-alti_inhg-', font='Any 18', size=(8, 1), enable_events=True),
+            ],
+]
 
         # Make Keypad window visiable
         window2 = sg.Window('Keypad', layout2, default_button_element_size=(6,2), font=('Helvetica', 16), auto_size_buttons=False)
@@ -296,11 +312,15 @@ while True:
                 keys_entered += event2
                 window2['input'].update(keys_entered)
 
-            if event2 =='-NAV1_deg-':
+            if event2 == '-NAV1_deg-':
                 keys_entered = ''
                 window2['input'].update(keys_entered)
 
-            if event2 =='-NAV2_deg-':
+            if event2 == '-NAV2_deg-':
+                keys_entered = ''
+                window2['input'].update(keys_entered)
+
+            if event2 == '-alti_inhg-':
                 keys_entered = ''
                 window2['input'].update(keys_entered)
 
@@ -331,6 +351,10 @@ while True:
                 elif values2['-NAV2_deg-'] == True:
                     window1['-nav2_deg-'].update(keys_entered)
                     fg['/instrumentation/nav[1]/radials/selected-deg'] = keys_entered
+
+                elif values2['-alti_inhg-'] == True:
+                    window1['-alti_inhg-'].update(keys_entered)
+                    fg['/instrumentation/altimeter/setting-inhg'] = keys_entered
 
 
                 window2.close()
