@@ -1,0 +1,12 @@
+0.4.2-beta
+	Added degrees to Nav1 and Nav2.
+	Added inHg to main screen and keypad.
+	Auto populated a number 1 in keypad frequency display.
+	Nav1 deg, Nav2 deg and inHg clears the auto populated number 1.
+	Inlarged the keypad so that is is easier to operate.
+	Placed main screen Keypad and Exit buttons in a frame.
+	
+
+
+0.4.1-beta
+	First version.
